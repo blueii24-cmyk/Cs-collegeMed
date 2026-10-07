@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MediPath – AI-Powered Medical Tourism (Prototype)</title>
+<meta name="description" content="Connecting patients, hospitals, and travel through artificial intelligence.">
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#" data-go="home"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="var(--or)"/><path d="M13 7h4v6h6v4h-6v6h-4v-6H7v-4h6z" fill="var(--on-or)"/></svg>MediPath</a>
+  <button class="tg" id="theme" type="button" aria-pressed="false">Dark</button>
+  <nav class="menu" id="menu" aria-label="Main">
+    <a href="#" data-go="home">Home</a><a href="#" data-go="assistant">AI Assistant</a><a href="#" data-go="report">Medical Report</a><a href="#" data-go="hospital">Find Hospital</a><a href="#" data-go="cost">Cost Estimator</a><a href="#" data-go="travel">Travel Planner</a><a href="#" data-go="dashboard">My Journey</a>
+  </nav>
+  <button class="btn sm cta" type="button" data-go="start">Get Started</button>
+  <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
+</div></header>
+
+<main>
+<!-- HOME -->
+<section class="view on" id="v-home"><div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>Your Medical Journey, Simplified by AI.</h1>
+      <p>Find hospitals, understand your medical reports, estimate treatment costs, and plan your medical journey — all in one place.</p>
+      <div class="row"><button class="btn" type="button" data-go="start">Start Your Journey</button><button class="btn alt" type="button" data-go="assistant">Talk to AI</button></div>
+    </div>
+    <div class="card pv" aria-hidden="true">
+      <span class="tag">Sample</span>
+      <div class="pr"><span>📋</span><div><b>Report explained</b><small>Plain-language summary</small></div></div>
+      <div class="pr"><span>🏥</span><div><b>Apollo Hospitals</b><small>AI Match: 94%</small></div></div>
+      <div class="pr"><span>✈️</span><div><b>Trip planned</b><small>Hotel, transport, follow-up</small></div></div>
+    </div>
+  </div>
+  <div class="cards">
+    <button class="card fc" type="button" data-go="assistant"><i>💬</i><h3>AI Medical Assistant</h3><p>Ask anything and get guided to the next step.</p></button>
+    <button class="card fc" type="button" data-go="report"><i>📋</i><h3>Medical Report Analyzer</h3><p>Turn a report into a simple explanation.</p></button>
+    <button class="card fc" type="button" data-go="hospital"><i>🏥</i><h3>Smart Hospital Matching</h3><p>See which hospitals fit your treatment.</p></button>
+    <button class="card fc" type="button" data-go="travel"><i>🧳</i><h3>Travel Planner</h3><p>Flights, stay and follow-up in one plan.</p></button>
+  </div>
+  <div class="band">
+    <h3>Your journey from treatment to travel — all in one place.</h3>
+    <p>MediPath makes medical tourism simple by connecting healthcare, AI, and travel in one place.</p>
+    <p class="m">Connecting patients, hospitals, and travel through artificial intelligence.</p>
+  </div>
+</div></section>
+
+<!-- ASSISTANT -->
+<section class="view" id="v-assistant"><div class="wrap narrow">
+  <h2>AI Medical Assistant</h2>
+  <p class="sub">Ask a question or tap a shortcut. Without a Gemini key, replies are simulated.</p><p><button class="tg" data-ai type="button">AI: demo mode</button></p>
+  <div class="chat" id="chat" aria-live="polite"></div>
+  <div class="chips" id="quick"><button type="button" data-q="Find Hospital">Find Hospital</button><button type="button" data-q="Analyze Report">Analyze Report</button><button type="button" data-q="Estimate Cost">Estimate Cost</button><button type="button" data-q="Plan Travel">Plan Travel</button></div>
+  <form class="cf" id="cf"><input id="ci" type="text" placeholder="Type your question…" aria-label="Your question" autocomplete="off"><button class="btn" type="submit">Send</button></form>
+</div></section>
+
+<!-- REPORT -->
+<section class="view" id="v-report"><div class="wrap narrow">
+  <h2>AI Medical Report Analyzer</h2>
+  <p class="sub">Upload your medical report and get a simple explanation.</p><p><button class="tg" data-ai type="button">AI: demo mode</button></p>
+  <h3 class="lb">1. Select your treatment</h3>
+  <div class="chips" id="treats" role="group" aria-label="Treatment"></div>
+  <h3 class="lb">2. Upload your report</h3>
+  <label class="drop" for="file"><b>Upload Report</b><span id="fn">Choose a PDF, image or text file, or use the demo report below.</span></label>
+  <input type="file" id="file" accept=".pdf,.txt,image/*" hidden>
+  <div class="row"><button class="btn" type="button" id="an">Analyze Demo Report</button></div>
+  <div class="card res" id="rep" hidden></div>
+</div></section>
+
+<!-- HOSPITAL -->
+<section class="view" id="v-hospital"><div class="wrap">
+  <h2>Find the Right Hospital</h2>
+  <p class="sub">All hospital information below is sample/demo data.</p>
+  <div class="filters">
+    <label>Treatment<select id="f-t"></select></label>
+    <label>Location<select id="f-l"><option value="">Any location</option><option>Chennai</option><option>Gurugram</option><option>Bengaluru</option></select></label>
+    <label>Budget<select id="f-b"><option value="0">Any budget</option><option value="500000">Up to ₹5,00,000</option><option value="700000">Up to ₹7,00,000</option></select></label>
+    <label>Language<select id="f-g"><option>English</option><option>Hindi</option><option>Tamil</option><option>Kannada</option></select></label>
+  </div>
+  <div class="cards" id="hl"></div>
+  <div class="card res" id="mx" hidden></div>
+</div></section>
+
+<!-- COST -->
+<section class="view" id="v-cost"><div class="wrap narrow">
+  <h2>Estimate Your Treatment Cost</h2>
+  <p class="sub">Change a selection and the estimate updates.</p>
+  <div class="filters">
+    <label>Treatment<select id="c-t"></select></label>
+    <label>Hospital<select id="c-h"></select></label>
+    <label>Length of Stay<select id="c-s"><option value="5">5 nights</option><option value="7">7 nights</option><option value="10" selected>10 nights</option><option value="14">14 nights</option></select></label>
+    <label>Accommodation<select id="c-a"><option>Standard</option><option>Comfort</option><option>Premium</option></select></label>
+  </div>
+  <div class="card"><ul class="rows" id="cr"></ul><div class="tot"><span>Estimated Total</span><b id="ct"></b></div></div>
+  <p class="m">Costs shown are sample estimates for demonstration only.</p>
+  <div class="row"><button class="btn" type="button" data-go="travel">Plan my travel</button></div>
+</div></section>
+
+<!-- TRAVEL -->
+<section class="view" id="v-travel"><div class="wrap">
+  <h2>Plan Your Medical Journey</h2>
+  <p class="sub">From arrival to return, every step in order.</p>
+  <div class="two">
+    <ol class="tl" id="tl">
+      <li><i>✈️</i>Arrival</li><li><i>🏥</i>Hospital Consultation</li><li><i>🩺</i>Treatment</li><li><i>🏨</i>Recovery</li><li><i>📋</i>Follow-up</li><li><i>✈️</i>Return Home</li>
+    </ol>
+    <div class="cards one">
+      <div class="card"><h3>Flight</h3><p>Round trip to your hospital city</p></div>
+      <div class="card"><h3>Hotel</h3><p>Near the hospital, with recovery support</p></div>
+      <div class="card"><h3>Hospital Appointment</h3><p>Consultation and treatment dates</p></div>
+      <div class="card"><h3>Local Transport</h3><p>Airport, hotel and hospital transfers</p></div>
+      <div class="card"><h3>Follow-up</h3><p>Check-up before you fly home</p></div>
+    </div>
+  </div>
+  <div class="row"><button class="btn" type="button" id="mk">Create My Plan</button></div>
+  <div class="card res" id="plan" hidden></div>
+</div></section>
+
+<!-- DASHBOARD -->
+<section class="view" id="v-dashboard"><div class="wrap">
+  <h2>My MediPath Journey</h2>
+  <p class="sub">Sample patient dashboard.</p>
+  <div class="cards three">
+    <div class="card"><small>Upcoming Appointment</small><b class="big">15 October</b><p>10:30 AM<br>Hospital: Sample Medical Center</p></div>
+    <div class="card"><small>Treatment Status</small><b class="big">65% Complete</b><div class="bar"><i id="pb"></i></div></div>
+    <div class="card"><small>Travel</small><b class="big ok">Hotel Confirmed</b><p>Transfers and follow-up planned</p></div>
+  </div>
+  <div class="chips tiles">
+    <button type="button" data-go="report">📋 Medical Reports</button><button type="button" data-go="travel">📅 Appointments</button><button type="button" data-go="travel">🧳 Travel Plan</button><button type="button" data-go="assistant">💬 Support</button>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div><h3>MediPath</h3><p>Making Global Healthcare Accessible Through AI.</p><p><button class="tg" data-ai type="button">AI: demo mode</button></p></div>
+  <div><h3>Explore</h3><ul><li><a href="#" data-go="home">Home</a></li><li><a href="#" data-go="assistant">AI Assistant</a></li><li><a href="#" data-go="report">Medical Report</a></li></ul></div>
+  <div><h3>Plan</h3><ul><li><a href="#" data-go="hospital">Find Hospital</a></li><li><a href="#" data-go="cost">Cost Estimator</a></li><li><a href="#" data-go="travel">Travel Planner</a></li></ul></div>
+  <small>Prototype — For Demonstration Purposes Only.</small>
+</div></footer>
+
+<dialog id="aid"><form method="dialog" onsubmit="return false">
+  <h3>Gemini AI settings</h3>
+  <p class="m">Paste your own Gemini API key to make the assistant, report analyzer, hospital match and travel plan use live AI. The key stays in this browser tab only. Without a key, MediPath uses demo responses.</p>
+  <label>API key<input type="password" id="ak" autocomplete="off" placeholder="Paste your key"></label>
+  <label>Model<input type="text" id="am" placeholder="gemini-3.5-flash"></label>
+  <p class="note">Prototype only: do not upload real patient records. Reports you analyze are sent to Google's Gemini API.</p>
+  <div class="row"><button class="btn" type="button" id="asave">Save</button><button class="btn alt" type="button" id="aclr">Clear key</button><button class="tg" type="button" id="aclose">Close</button></div>
+</form></dialog>
+<button class="btn dbtn" id="dbtn" type="button">Demo Mode</button>
+<div class="demo" id="demo" hidden>
+  <div><b id="ds">Step 1 of 6</b><span id="dt"></span></div>
+  <div class="bar"><i id="dp"></i></div>
+  <div class="row"><button class="btn alt sm" type="button" id="dback">Back</button><button class="btn sm" type="button" id="dnext">Next</button><button class="tg" type="button" id="dx">Exit</button></div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
