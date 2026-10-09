@@ -3,14 +3,149 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MediPath – AI-Powered Medical Tourism (Prototype)</title>
-<meta name="description" content="Connecting patients, hospitals, and travel through artificial intelligence.">
+<title>RaabCare – AI-Powered Medical Tourism (Prototype)</title>
+<meta name="description" content="Connecting Patients, Hospitals, and Travel Through Artificial Intelligence">
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<style>
+:root{--ink:#2B2118;--paper:#FFFFFF;--soft:#FFF4EA;--line:#F3DFCF;--muted:#6B5A4C;--gold:#F26B1D;--or:#C94F08;--on-or:#FFFFFF;--ok:#2F7D4F;--sh:0 8px 24px rgba(201,79,8,.08)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#F7EDE3;--paper:#17110C;--soft:#221810;--line:#3B2B1E;--muted:#BFAA97;--gold:#FF8A3D;--or:#FF8A3D;--on-or:#1A0F07;--ok:#6BCB8E;--sh:none}}
+:root[data-theme="dark"]{--ink:#F7EDE3;--paper:#17110C;--soft:#221810;--line:#3B2B1E;--muted:#BFAA97;--gold:#FF8A3D;--or:#FF8A3D;--on-or:#1A0F07;--ok:#6BCB8E;--sh:none}
+:root[data-theme="light"]{color-scheme:light}:root[data-theme="dark"]{color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.65 "Hanken Grotesk",system-ui,sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+h1,h2,h3{font-family:"Young Serif",Georgia,serif;font-weight:400;line-height:1.15;margin:0}
+a{color:inherit;text-underline-offset:3px}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,.drop:focus-within{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+[hidden]{display:none!important}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.narrow{max-width:760px}
+.m,small{color:var(--muted)}
+.m{font-size:15px}
+/* nav */
+header.nav{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
+header.nav .wrap{display:flex;align-items:center;gap:16px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:400 20px "Young Serif",Georgia,serif;margin-right:auto}
+.menu{display:flex;gap:18px;font-size:14.5px;order:2}
+.menu a{text-decoration:none;color:var(--muted);white-space:nowrap}
+.menu a:hover{color:var(--ink);text-decoration:underline}
+.menu a.on{color:var(--ink);font-weight:700;box-shadow:0 2px 0 var(--gold)}
+.tg{order:3;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:7px 14px;font:500 14px "Hanken Grotesk",sans-serif;cursor:pointer}
+.tg:hover{border-color:var(--or)}
+.cta{order:4}
+.burger{display:none;order:5;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:12px;width:42px;height:38px;font-size:20px;cursor:pointer}
+/* buttons */
+.btn{display:inline-block;padding:13px 24px;border:1.5px solid var(--or);border-radius:999px;background:var(--or);color:var(--on-or);font:700 16px "Hanken Grotesk",sans-serif;text-decoration:none;cursor:pointer}
+.btn:hover{opacity:.88}
+.btn.alt{background:none;color:var(--or)}
+.btn.sm{padding:8px 16px;font-size:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
+/* views */
+.view{display:none;padding:56px 0 72px}
+.view.on{display:block;animation:in .3s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h2{font-size:clamp(26px,3.6vw,36px);margin-bottom:10px}
+h3.lb{font-size:19px;color:var(--or);margin:28px 0 12px}
+.sub{color:var(--muted);max-width:36em;margin:0 0 28px}
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding-bottom:56px}
+.hero h1{font-size:clamp(34px,5.4vw,56px)}
+.hero p{color:var(--muted);font-size:19px;margin:20px 0 0;max-width:28em}
+.card{position:relative;border:1.5px solid var(--line);border-radius:16px;background:var(--paper);padding:22px;box-shadow:var(--sh)}
+.card h3{font-size:20px;margin-bottom:6px}
+.card p{margin:4px 0 0;color:var(--muted);font-size:16px}
+.tag{display:inline-block;font-size:12px;font-weight:700;background:var(--gold);color:#2B2118;padding:1px 10px;border-radius:99px;margin-bottom:10px}
+.pv{background:var(--soft);border-radius:22px;padding:26px}
+.pr{display:flex;gap:14px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.pr span{font-size:26px}.pr small{display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.cards.one{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.cards.three{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.fc{text-align:left;font:inherit;color:inherit;cursor:pointer}
+.fc:hover,.tiles button:hover{border-color:var(--or)}
+.fc i{font-style:normal;font-size:28px;display:block;margin-bottom:10px}
+.band{margin-top:56px;padding:28px 0;border-block:1px solid var(--line)}
+.band h3{font-size:24px}.band p{margin:6px 0 0;color:var(--muted)}
+/* chat */
+.chat{display:flex;flex-direction:column;gap:12px;min-height:300px;max-height:440px;overflow:auto;padding:20px;background:var(--soft);border:1.5px solid var(--line);border-radius:22px}
+.msg{max-width:84%;padding:12px 16px;border-radius:18px}
+.msg.u{align-self:flex-end;background:var(--or);color:var(--on-or);border-bottom-right-radius:4px}
+.msg.a{background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg .btn{margin-top:10px}
+.dots i{display:inline-block;width:7px;height:7px;margin-right:4px;border-radius:50%;background:var(--muted);animation:bl 1s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes bl{50%{opacity:.25}}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.chips button{padding:9px 18px;border:1.5px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);font:500 16px "Hanken Grotesk",sans-serif;cursor:pointer}
+.chips button:hover{border-color:var(--ink)}
+.chips button.on{border-color:var(--or);background:var(--soft);font-weight:700}
+.cf{display:flex;gap:10px;margin-top:14px}
+input[type=text],input[type=password],select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);color:var(--ink);font:400 16px "Hanken Grotesk",sans-serif}
+/* report */
+.drop{display:block;padding:28px;border:2px dashed var(--line);border-radius:18px;background:var(--soft);text-align:center;cursor:pointer}
+.drop b{display:block;font:400 20px "Young Serif",Georgia,serif}.drop span{color:var(--muted);font-size:15px}
+.res{margin-top:24px}
+.ld{display:flex;align-items:center;gap:12px}
+.sp{width:22px;height:22px;border:3px solid var(--line);border-top-color:var(--or);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.res dt{font-weight:700;color:var(--or);margin-top:14px}.res dd{margin:2px 0 0}
+.note{margin-top:16px;padding-top:12px;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+/* hospital + cost */
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+.filters label{font-size:14px;font-weight:700;color:var(--muted);display:block}
+.filters select{margin-top:4px;font-weight:400}
+.hc .mt{margin:10px 0}.hc .mt b{font:400 26px "Young Serif",Georgia,serif;color:var(--or)}
+.hc .row{margin-top:12px}.empty{color:var(--muted)}
+.res ul{margin:8px 0 0;padding-left:20px}
+.rows{list-style:none;margin:0;padding:0}
+.rows li{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.tot{display:flex;justify-content:space-between;align-items:baseline;padding-top:16px}
+.tot b{font:400 32px "Young Serif",Georgia,serif;color:var(--or)}
+/* travel */
+.two{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{position:relative;display:flex;align-items:center;gap:14px;padding:0 0 28px;font:400 19px "Young Serif",Georgia,serif}
+.tl li:not(:last-child)::before{content:"";position:absolute;left:21px;top:44px;bottom:2px;width:2px;background:var(--line)}
+.tl i{display:grid;place-items:center;width:44px;height:44px;border:1.5px solid var(--line);border-radius:50%;background:var(--soft);font-style:normal;font-size:20px;transition:.3s}
+.tl li.on i{border-color:var(--or);background:var(--or)}
+.res .pl{display:flex;gap:16px;padding:10px 0;border-bottom:1px solid var(--line)}.res .pl b{min-width:96px}
+/* dashboard */
+.big{display:block;font:400 28px "Young Serif",Georgia,serif;margin:6px 0}.big.ok{color:var(--ok)}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;width:0;background:var(--or);border-radius:99px;transition:width .9s ease}
+.tiles{margin-top:24px}.tiles button{padding:16px 22px;border-radius:14px}
+/* footer + demo */
+footer{padding:48px 0 36px;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+footer h3{color:var(--or);font-size:18px;margin-bottom:8px}
+footer ul{list-style:none;margin:0;padding:0}footer small{grid-column:1/-1}
+.dbtn{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:6;padding:10px 18px;font-size:14px}
+.demo{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:7;width:min(560px,calc(100% - 24px));padding:14px 18px;background:var(--paper);border:1.5px solid var(--or);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.demo>div:first-child{display:flex;justify-content:space-between;gap:12px}.demo #dt{color:var(--muted)}
+.demo .row{margin-top:10px;justify-content:flex-end}
+@media (max-width:900px){
+  .burger{display:block}.cta{display:none}
+  .menu{display:none;order:9;width:100%;flex-direction:column;gap:0;padding-bottom:10px}
+  .menu.open{display:flex}.menu a{padding:12px 0;border-top:1px solid var(--line)}.menu a.on{box-shadow:none;color:var(--or)}
+  header.nav .wrap{flex-wrap:wrap}
+}
+@media (max-width:760px){.hero,.two,footer .wrap{grid-template-columns:1fr;gap:32px}.view{padding:40px 0 96px}.cf{flex-direction:column}.msg{max-width:94%}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.view.on{animation:none}.bar i,.tl i{transition:none}.sp,.dots i{animation:none}}
+dialog{width:min(480px,calc(100% - 32px));border:1.5px solid var(--line);border-radius:18px;background:var(--paper);color:var(--ink);padding:24px}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dialog h3{margin-bottom:8px}dialog label{display:block;margin-top:14px;font-size:14px;font-weight:700;color:var(--muted)}dialog input{margin-top:4px;font-weight:400}
+.why{margin-top:56px}.why h3{font-size:24px}
+.why ul{list-style:none;margin:16px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.why li{padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;background:var(--soft);font-size:15px}
+.why p{margin:0;font:400 20px "Young Serif",Georgia,serif}
+ol.flow{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0 0 8px}
+.flow li{font-size:14px;padding:6px 12px;border:1.5px solid var(--line);border-radius:999px;background:var(--soft)}
+.flow li:not(:last-child)::after{content:"→";margin-left:8px;color:var(--or)}
+.hc small{color:var(--muted);font-size:13px}
+</style>
 </head>
 <body>
 <header class="nav"><div class="wrap">
-  <a class="brand" href="#" data-go="home"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="var(--or)"/><path d="M13 7h4v6h6v4h-6v6h-4v-6H7v-4h6z" fill="var(--on-or)"/></svg>MediPath</a>
+  <a class="brand" href="#" data-go="home"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="var(--or)"/><path d="M13 7h4v6h6v4h-6v6h-4v-6H7v-4h6z" fill="var(--on-or)"/></svg>RaabCare</a>
   <button class="tg" id="theme" type="button" aria-pressed="false">Dark</button>
   <nav class="menu" id="menu" aria-label="Main">
     <a href="#" data-go="home">Home</a><a href="#" data-go="assistant">AI Assistant</a><a href="#" data-go="report">Medical Report</a><a href="#" data-go="hospital">Find Hospital</a><a href="#" data-go="cost">Cost Estimator</a><a href="#" data-go="travel">Travel Planner</a><a href="#" data-go="dashboard">My Journey</a>
@@ -41,26 +176,34 @@
     <button class="card fc" type="button" data-go="hospital"><i>🏥</i><h3>Smart Hospital Matching</h3><p>See which hospitals fit your treatment.</p></button>
     <button class="card fc" type="button" data-go="travel"><i>🧳</i><h3>Travel Planner</h3><p>Flights, stay and follow-up in one plan.</p></button>
   </div>
+  <div class="why">
+    <h3>Why patients need RaabCare</h3>
+    <ul><li>Finding trusted hospitals is difficult</li><li>Comparing treatment costs takes time</li><li>Language barriers affect communication</li><li>Travel and treatment planning are fragmented</li><li>Reliable information is hard to find</li></ul>
+    <p>Patients need one clear, coordinated journey instead of managing everything separately.</p>
+  </div>
   <div class="band">
     <h3>Your journey from treatment to travel — all in one place.</h3>
-    <p>MediPath makes medical tourism simple by connecting healthcare, AI, and travel in one place.</p>
-    <p class="m">Connecting patients, hospitals, and travel through artificial intelligence.</p>
+    <p>RaabCare makes medical tourism simple by connecting healthcare, AI, and travel in one place.</p>
+    <p class="m">Connecting Patients, Hospitals, and Travel Through Artificial Intelligence</p>
+    <p class="m">Making global healthcare easier to discover, understand, and navigate.</p>
   </div>
 </div></section>
 
 <!-- ASSISTANT -->
 <section class="view" id="v-assistant"><div class="wrap narrow">
   <h2>AI Medical Assistant</h2>
-  <p class="sub">Ask a question or tap a shortcut. Without a Gemini key, replies are simulated.</p><p><button class="tg" data-ai type="button">AI: demo mode</button></p>
+  <p class="sub">Guidance from inquiry to recovery, designed for 24/7 access and multiple languages. Without a Gemini key, replies are simulated.</p><p><button class="tg" data-ai type="button">AI: demo mode</button></p>
   <div class="chat" id="chat" aria-live="polite"></div>
-  <div class="chips" id="quick"><button type="button" data-q="Find Hospital">Find Hospital</button><button type="button" data-q="Analyze Report">Analyze Report</button><button type="button" data-q="Estimate Cost">Estimate Cost</button><button type="button" data-q="Plan Travel">Plan Travel</button></div>
+  <div class="chips" id="quick"><button type="button" data-q="Find Hospitals">Find Hospitals</button><button type="button" data-q="Understand My Report">Understand My Report</button><button type="button" data-q="Estimate Costs">Estimate Costs</button><button type="button" data-q="Plan My Travel">Plan My Travel</button></div>
   <form class="cf" id="cf"><input id="ci" type="text" placeholder="Type your question…" aria-label="Your question" autocomplete="off"><button class="btn" type="submit">Send</button></form>
+  <p class="note">The assistant provides informational and planning support, not a medical diagnosis.</p>
 </div></section>
 
 <!-- REPORT -->
 <section class="view" id="v-report"><div class="wrap narrow">
   <h2>AI Medical Report Analyzer</h2>
   <p class="sub">Upload your medical report and get a simple explanation.</p><p><button class="tg" data-ai type="button">AI: demo mode</button></p>
+  <ol class="flow"><li>Upload Medical Report</li><li>AI-Assisted Processing</li><li>Simple-Language Summary</li><li>Questions for a Specialist</li><li>Explore Hospitals</li><li>Estimate Costs</li></ol>
   <h3 class="lb">1. Select your treatment</h3>
   <div class="chips" id="treats" role="group" aria-label="Treatment"></div>
   <h3 class="lb">2. Upload your report</h3>
@@ -73,12 +216,14 @@
 <!-- HOSPITAL -->
 <section class="view" id="v-hospital"><div class="wrap">
   <h2>Find the Right Hospital</h2>
-  <p class="sub">All hospital information below is sample/demo data.</p>
+  <p class="sub">All hospital details, costs and match scores below are illustrative demo data, not validated clinical recommendations.</p>
+  <ol class="flow"><li>Patient Preferences</li><li>AI-Assisted Matching</li><li>Hospital Comparison</li><li>Patient Review</li><li>Contact Hospital</li></ol>
   <div class="filters">
     <label>Treatment<select id="f-t"></select></label>
     <label>Location<select id="f-l"><option value="">Any location</option><option>Chennai</option><option>Gurugram</option><option>Bengaluru</option></select></label>
     <label>Budget<select id="f-b"><option value="0">Any budget</option><option value="500000">Up to ₹5,00,000</option><option value="700000">Up to ₹7,00,000</option></select></label>
     <label>Language<select id="f-g"><option>English</option><option>Hindi</option><option>Tamil</option><option>Kannada</option></select></label>
+    <label>Insurance<select id="f-i"><option value="">Any</option><option value="1">International insurance accepted</option></select></label>
   </div>
   <div class="cards" id="hl"></div>
   <div class="card res" id="mx" hidden></div>
@@ -102,17 +247,18 @@
 <!-- TRAVEL -->
 <section class="view" id="v-travel"><div class="wrap">
   <h2>Plan Your Medical Journey</h2>
-  <p class="sub">From arrival to return, every step in order.</p>
+  <p class="sub">Treatment planning and travel coordination in one place, so you do not manage every service separately. RaabCare does not provide clinical treatment or guarantee travel arrangements.</p>
   <div class="two">
     <ol class="tl" id="tl">
-      <li><i>✈️</i>Arrival</li><li><i>🏥</i>Hospital Consultation</li><li><i>🩺</i>Treatment</li><li><i>🏨</i>Recovery</li><li><i>📋</i>Follow-up</li><li><i>✈️</i>Return Home</li>
+      <li><i>🔎</i>Explore Treatment Options</li><li><i>⚖️</i>Compare Hospitals</li><li><i>📅</i>Organize Appointments</li><li><i>🧳</i>Plan Flights and Accommodation</li><li><i>✈️</i>Arrive at the Destination</li><li><i>🩺</i>Attend Treatment</li><li><i>🏨</i>Arrange Recovery and Follow-up</li><li><i>🛫</i>Plan the Return Journey</li>
     </ol>
     <div class="cards one">
-      <div class="card"><h3>Flight</h3><p>Round trip to your hospital city</p></div>
-      <div class="card"><h3>Hotel</h3><p>Near the hospital, with recovery support</p></div>
-      <div class="card"><h3>Hospital Appointment</h3><p>Consultation and treatment dates</p></div>
-      <div class="card"><h3>Local Transport</h3><p>Airport, hotel and hospital transfers</p></div>
-      <div class="card"><h3>Follow-up</h3><p>Check-up before you fly home</p></div>
+      <div class="card"><h3>Flights</h3><p>Round trip to the hospital city</p></div>
+      <div class="card"><h3>Hotels</h3><p>Stay near the hospital</p></div>
+      <div class="card"><h3>Airport Transfers</h3><p>Pickup and drop-off</p></div>
+      <div class="card"><h3>Hospital Appointments</h3><p>Consultation and treatment dates</p></div>
+      <div class="card"><h3>Local Transportation</h3><p>Hotel to hospital rides</p></div>
+      <div class="card"><h3>Follow-up Reminders</h3><p>Check-ups before you fly home</p></div>
     </div>
   </div>
   <div class="row"><button class="btn" type="button" id="mk">Create My Plan</button></div>
@@ -121,7 +267,7 @@
 
 <!-- DASHBOARD -->
 <section class="view" id="v-dashboard"><div class="wrap">
-  <h2>My MediPath Journey</h2>
+  <h2>My RaabCare Journey</h2>
   <p class="sub">Sample patient dashboard.</p>
   <div class="cards three">
     <div class="card"><small>Upcoming Appointment</small><b class="big">15 October</b><p>10:30 AM<br>Hospital: Sample Medical Center</p></div>
@@ -135,7 +281,7 @@
 </main>
 
 <footer><div class="wrap">
-  <div><h3>MediPath</h3><p>Making Global Healthcare Accessible Through AI.</p><p><button class="tg" data-ai type="button">AI: demo mode</button></p></div>
+  <div><h3>RaabCare</h3><p>Making Global Healthcare Accessible Through AI.</p><p><button class="tg" data-ai type="button">AI: demo mode</button></p></div>
   <div><h3>Explore</h3><ul><li><a href="#" data-go="home">Home</a></li><li><a href="#" data-go="assistant">AI Assistant</a></li><li><a href="#" data-go="report">Medical Report</a></li></ul></div>
   <div><h3>Plan</h3><ul><li><a href="#" data-go="hospital">Find Hospital</a></li><li><a href="#" data-go="cost">Cost Estimator</a></li><li><a href="#" data-go="travel">Travel Planner</a></li></ul></div>
   <small>Prototype — For Demonstration Purposes Only.</small>
@@ -143,7 +289,7 @@
 
 <dialog id="aid"><form method="dialog" onsubmit="return false">
   <h3>Gemini AI settings</h3>
-  <p class="m">Paste your own Gemini API key to make the assistant, report analyzer, hospital match and travel plan use live AI. The key stays in this browser tab only. Without a key, MediPath uses demo responses.</p>
+  <p class="m">Paste your own Gemini API key to make the assistant, report analyzer, hospital match and travel plan use live AI. The key stays in this browser tab only. Without a key, RaabCare uses demo responses.</p>
   <label>API key<input type="password" id="ak" autocomplete="off" placeholder="Paste your key"></label>
   <label>Model<input type="text" id="am" placeholder="gemini-3.5-flash"></label>
   <p class="note">Prototype only: do not upload real patient records. Reports you analyze are sent to Google's Gemini API.</p>
@@ -155,6 +301,208 @@
   <div class="bar"><i id="dp"></i></div>
   <div class="row"><button class="btn alt sm" type="button" id="dback">Back</button><button class="btn sm" type="button" id="dnext">Next</button><button class="tg" type="button" id="dx">Exit</button></div>
 </div>
-<script src="script.js"></script>
+<script>
+(function(){
+var $=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var T=['Cardiology','Orthopedics','Oncology','Neurology','General Surgery'];
+var H=[{n:'Apollo Hospitals',c:'Chennai',k:1,l:'English, Hindi, Tamil',i:1,m:[94,92,90,91,93]},{n:'Fortis Healthcare',c:'Gurugram',k:.95,l:'English, Hindi, Punjabi',i:1,m:[89,95,93,89,90]},{n:'Manipal Hospitals',c:'Bengaluru',k:.9,l:'English, Hindi, Kannada',i:1,m:[85,89,91,94,92]}];
+function rng(t,h){var v=BASE[t]*h.k;return inr(Math.round(v*.85/5000)*5000)+' – '+inr(Math.round(v*1.15/5000)*5000)}
+var BASE=[500000,420000,650000,550000,350000],RATE={Standard:3500,Comfort:5500,Premium:8500};
+var S={t:0,h:0},timers={};
+var inr=function(n){return'₹'+Math.round(n).toLocaleString('en-IN')};
+var esc=function(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML};
+/* Gemini */
+var DEF='gemini-3.5-flash';
+var G={key:function(){try{return sessionStorage.getItem('mp-key')||''}catch(e){return''}},model:function(){try{return sessionStorage.getItem('mp-model')||DEF}catch(e){return DEF}}};
+var SYS='You are RaabCare, a patient-friendly assistant in a medical tourism demo app. Help with finding hospitals, understanding reports in plain language, cost estimates and travel planning in India. Never diagnose or prescribe; suggest consulting a qualified doctor. Hospital data in this app is sample data. Keep answers under 90 words, in simple language.';
+function clean(t){return t.replace(/^```(?:json)?\s*|\s*```$/g,'').trim()}
+function gem(parts,o){
+  o=o||{};
+  var body={systemInstruction:{parts:[{text:o.sys||SYS}]},contents:o.contents||[{role:'user',parts:parts}],generationConfig:{temperature:.4}};
+  if(o.json)body.generationConfig.responseMimeType='application/json';
+  return fetch('https://generativelanguage.googleapis.com/v1beta/models/'+G.model()+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':G.key()},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(d){
+    if(!r.ok)throw new Error(d.error&&d.error.message||'request failed ('+r.status+')');
+    var p=d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts;
+    if(!p)throw new Error('no answer returned, try again');
+    return p.map(function(x){return x.text||''}).join('');
+  })});
+}
+function setAI(){var on=!!G.key();$$('[data-ai]').forEach(function(b){b.textContent=on?'AI: Gemini on':'AI: demo mode'})}
+function openAI(){$('#ak').value=G.key();$('#am').value=G.model();$('#aid').showModal()}
+function fill(el,a,v){el.innerHTML=a.map(function(x,i){return'<option value="'+i+'">'+x+'</option>'}).join('');el.value=v}
+
+/* navigation */
+function go(v){
+  if(v==='start'){go('report');setTimeout(function(){$('#treats').scrollIntoView({behavior:'smooth',block:'center'})},60);return}
+  $$('.view').forEach(function(e){e.classList.toggle('on',e.id==='v-'+v)});
+  $$('#menu a').forEach(function(a){a.classList.toggle('on',a.dataset.go===v)});
+  $('#menu').classList.remove('open');$('#burger').setAttribute('aria-expanded','false');
+  window.scrollTo(0,0);
+  if(v==='dashboard'){$('#pb').style.width='0';setTimeout(function(){$('#pb').style.width='65%'},80)}
+  if(v==='assistant')$('#chat').scrollTop=1e5;
+}
+document.addEventListener('click',function(e){
+  var g=e.target.closest('[data-go]');
+  if(g){e.preventDefault();go(g.dataset.go);return}
+  if(e.target.closest('[data-ai]')){openAI();return}
+  if(e.target.closest('[data-da]')){demoAnalyze();return}
+  var q=e.target.closest('[data-q]');if(q){ask(q.dataset.q);return}
+  var v=e.target.closest('[data-v]');
+  if(v){var d=v.closest('.hc').querySelector('.dt');d.hidden=!d.hidden;return}
+  var m=e.target.closest('[data-m]');if(m)match(+m.dataset.m);
+});
+$('#burger').onclick=function(){var o=$('#menu').classList.toggle('open');this.setAttribute('aria-expanded',o)};
+
+/* theme (same behaviour as the CES page) */
+var root=document.documentElement,tg=$('#theme');
+function isDark(){var t=root.getAttribute('data-theme');return t?t==='dark':window.matchMedia('(prefers-color-scheme:dark)').matches}
+function paint(){var d=isDark();tg.textContent=d?'Light':'Dark';tg.setAttribute('aria-pressed',d)}
+try{var sv=localStorage.getItem('medipath-theme');if(sv)root.setAttribute('data-theme',sv)}catch(e){}
+tg.onclick=function(){var n=isDark()?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('medipath-theme',n)}catch(e){}paint()};
+paint();
+
+/* treatment selection */
+function setT(i){
+  S.t=i;$('#f-t').value=i;$('#c-t').value=i;
+  $$('#treats button').forEach(function(b,j){b.classList.toggle('on',j===i);b.setAttribute('aria-pressed',j===i)});
+  renderH();renderCost();
+}
+fill($('#f-t'),T,0);fill($('#c-t'),T,0);fill($('#c-h'),H.map(function(h){return h.n}),0);
+$('#treats').innerHTML=T.map(function(t,i){return'<button type="button">'+t+'</button>'}).join('');
+$$('#treats button').forEach(function(b,i){b.onclick=function(){setT(i)}});
+
+/* chat */
+function say(c,h){var d=document.createElement('div');d.className='msg '+c;d.innerHTML=h;$('#chat').appendChild(d);$('#chat').scrollTop=1e5;return d}
+function btn(g,t){return'<br><button class="btn sm" type="button" data-go="'+g+'">'+t+'</button>'}
+function reply(q){
+  var s=q.toLowerCase();
+  if(/hospital|heart|doctor/.test(s))return'I found 3 sample hospitals for '+T[S.t]+'. The top sample match is '+H[0].n+' at 94%.'+btn('hospital','Open Find Hospital');
+  if(/report|analy|scan|result/.test(s))return'Upload a report and I will explain it in simple language. Try the demo report to see how it works.'+btn('report','Open Medical Report');
+  if(/cost|price|estimate|budget/.test(s))return'I can estimate treatment, stay, travel and local transport together. Change any option and the total updates.'+btn('cost','Open Cost Estimator');
+  if(/travel|flight|hotel|trip|plan/.test(s))return'I can build a plan from arrival to return home, including hotel, transport and follow-up.'+btn('travel','Open Travel Planner');
+  return'I can help you explore hospitals, compare estimated costs, organize your medical information, and plan your travel. A qualified medical professional should guide your treatment decisions.';
+}
+function tail(q){var r=reply(q),i=r.indexOf('<br>');return i<0?'':r.slice(i)}
+function ask(q){
+  say('u',esc(q));var tp=say('a','<span class="dots"><i></i><i></i><i></i></span>');
+  if(!G.key()){setTimeout(function(){tp.innerHTML=reply(q);$('#chat').scrollTop=1e5},800);return}
+  hist.push({role:'user',parts:[{text:q}]});
+  gem(null,{contents:hist,sys:SYS+' The patient has selected '+T[S.t]+'.'}).then(function(t){
+    hist.push({role:'model',parts:[{text:t}]});
+    tp.innerHTML=esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>')+tail(q);
+  }).catch(function(e){hist.pop();tp.innerHTML='Gemini is unavailable ('+esc(e.message)+'). Here is a demo reply instead.<br>'+reply(q)}).then(function(){$('#chat').scrollTop=1e5});
+}
+say('u','I am looking for treatment in India. Where should I start?');
+say('a','I can help you explore hospitals, compare estimated costs, organize your medical information, and plan your travel. A qualified medical professional should guide your treatment decisions.');
+var hist=[{role:'user',parts:[{text:'I am looking for treatment in India. Where should I start?'}]},{role:'model',parts:[{text:'I can help you explore hospitals, compare estimated costs, organize your medical information, and plan your travel. A qualified medical professional should guide your treatment decisions.'}]}];
+$('#cf').onsubmit=function(e){e.preventDefault();var v=$('#ci').value.trim();if(v){ask(v);$('#ci').value=''}};
+
+/* report */
+$('#file').onchange=function(){$('#fn').textContent=this.files[0]?this.files[0].name+(G.key()?' selected. Gemini will analyze it.':' selected. Add a Gemini key in AI settings to analyze it.'):'Choose a PDF, image or text file, or use the demo report below.'};
+function renderReport(d){
+  var ul=function(a){return'<ul>'+(a||[]).map(function(x){return'<li>'+esc(String(x))+'</li>'}).join('')+'</ul>'};
+  return'<h3>AI Summary</h3><dl><dt>Report Summary</dt><dd>'+esc(d.summary||'')+'</dd><dt>Key Information</dt><dd>'+ul(d.keyInfo)+'</dd><dt>Questions to Ask Your Doctor</dt><dd>'+ul(d.questions)+'</dd><dt>Suggested Next Step</dt><dd>'+esc(d.nextStep||'Consult a qualified specialist for further evaluation.')+(d.specialist?' Suggested specialist: '+esc(d.specialist)+'.':'')+'</dd></dl><p class="note">AI-generated information is for informational purposes and does not replace professional medical advice.</p><div class="row"><button class="btn" type="button" data-go="hospital">Find Hospital</button></div>';
+}
+function demoAnalyze(){
+  var r=$('#rep');r.hidden=false;
+  r.innerHTML='<div class="ld"><i class="sp"></i>Analyzing your report with AI...</div>';
+  clearTimeout(timers.a);
+  timers.a=setTimeout(function(){r.innerHTML=renderReport({summary:'Fictional demo data: a sample cardiac condition explained in simple language, to show how RaabCare could make medical information easier to understand.',keyInfo:['Sample finding: reduced heart pumping efficiency','Sample value: ejection fraction 45%','Sample note: follow-up imaging suggested'],questions:['Which tests do I need before treatment?','What care options could suit my situation?','How long might recovery take?'],nextStep:'Consult a qualified specialist for further evaluation.',specialist:'Cardiologist'})},1700);
+}
+function analyze(){
+  var f=$('#file').files[0];
+  if(!f||!G.key())return demoAnalyze();
+  var r=$('#rep');r.hidden=false;
+  var fail=function(m){r.innerHTML='<p>Could not analyze this file: '+esc(m)+'</p><div class="row"><button class="btn alt" type="button" data-da>Show demo result</button></div>'};
+  if(f.size>10485760)return fail('files must be under 10 MB.');
+  if(!/^(application\/pdf|image\/|text\/)/.test(f.type))return fail('use a PDF, image or text file.');
+  r.innerHTML='<div class="ld"><i class="sp"></i>Analyzing your report with Gemini...</div>';
+  var rd=new FileReader();
+  rd.onerror=function(){fail('the file could not be read.')};
+  rd.onload=function(){
+    var q='Explain this medical report to the patient in simple language. Reply with JSON only: {"summary":"2-3 simple sentences","keyInfo":["up to 4 key points, with values if present"],"questions":["3 questions to ask the doctor"],"specialist":"type of specialist to consult","treatment":"one of Cardiology, Orthopedics, Oncology, Neurology, General Surgery, Other","nextStep":"one sentence"}. Do not diagnose or give treatment advice. If this is not a medical report, say so in summary and leave keyInfo and questions empty.';
+    gem([{inline_data:{mime_type:f.type,data:rd.result.split(',')[1]}},{text:q}],{json:1}).then(function(t){
+      var d=JSON.parse(clean(t)),i=T.indexOf(d.treatment);
+      r.innerHTML=renderReport(d);
+      if(i>=0)setT(i);
+    }).catch(function(e){fail(e.message)});
+  };
+  rd.readAsDataURL(f);
+}
+$('#an').onclick=analyze;
+
+/* hospitals */
+function renderH(){
+  var t=+$('#f-t').value,loc=$('#f-l').value,bg=+$('#f-b').value,lg=$('#f-g').value,ins=$('#f-i').value;
+  var L=H.map(function(h,i){return{h:h,i:i,m:h.m[t]}}).filter(function(x){return(!loc||x.h.c===loc)&&(!bg||BASE[t]*x.h.k<=bg)&&x.h.l.indexOf(lg)>-1&&(!ins||x.h.i)}).sort(function(a,b){return b.m-a.m});
+  $('#hl').innerHTML=L.length?L.map(function(x){return'<article class="card hc"><span class="tag">Sample</span><h3>'+x.h.n+'</h3><p>India · '+x.h.c+'</p><p>'+T[t]+'</p><p>Est. cost: '+rng(t,x.h)+'</p><p>Languages: '+x.h.l+'</p><div class="mt"><b>'+x.m+'%</b> AI Match <small>(demo score)</small></div><div class="row"><button class="btn alt sm" type="button" data-v="'+x.i+'">View Hospital</button><button class="btn sm" type="button" data-m="'+x.i+'">Get Match</button></div><p class="dt" hidden>Sample profile: specialist team, international patient desk and multilingual support. Demo information only.</p></article>'}).join(''):'<p class="empty">No sample hospitals match these filters. Try another location, language or budget.</p>';
+  $('#mx').hidden=true;
+}
+function match(i){
+  var t=+$('#f-t').value,h=H[i],loc=$('#f-l').value||'Any location in India',bg=$('#f-b').selectedOptions[0].text;
+  S.h=i;$('#c-h').value=i;renderCost();
+  var m=$('#mx');m.hidden=false;
+  m.innerHTML='<h3>AI Match Explanation</h3><p><b>'+h.n+' — '+h.m[t]+'%</b></p><p id="mxt">Strong match based on treatment type, location, and your selected preferences.</p><ul><li>Treatment: '+T[t]+'</li><li>Location: '+loc+'</li><li>Budget: '+bg+'</li><li>Language: '+$('#f-g').value+'</li><li>Insurance: '+$('#f-i').selectedOptions[0].text+'</li></ul><p class="note">Illustrative demo score, not a validated clinical recommendation.</p><div class="row"><button class="btn" type="button" data-go="cost">Estimate Cost</button></div>';
+  if(G.key()){var mt=$('#mxt');mt.textContent='Writing your explanation with Gemini...';
+    gem([{text:'In 2-3 short sentences, tell the patient why '+h.n+' ('+h.m[t]+'% AI match) is a sample match for '+T[t]+'. Use these preferences: location '+loc+', budget '+bg+', language '+$('#f-g').value+'. Say it is sample/demo data. No medical advice.'}]).then(function(x){mt.textContent=x.trim()}).catch(function(){mt.textContent='Strong match based on treatment type, location, and your selected preferences.'})}
+  if(!document.body.classList.contains('demo-on'))m.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+$('#f-t').onchange=function(){setT(+this.value)};
+['f-l','f-b','f-g','f-i'].forEach(function(id){$('#'+id).onchange=renderH});
+
+/* cost */
+function renderCost(){
+  var t=+$('#c-t').value,h=H[+$('#c-h').value],n=+$('#c-s').value,a=$('#c-a').value;
+  var tr=Math.round(BASE[t]*h.k/1000)*1000,ac=RATE[a]*n,tv=40000,lt=1500*n;
+  $('#cr').innerHTML=[['Treatment',tr],['Accommodation',ac],['Travel',tv],['Local Transport',lt]].map(function(r){return'<li><span>'+r[0]+'</span><b>'+inr(r[1])+'</b></li>'}).join('');
+  $('#ct').textContent=inr(tr+ac+tv+lt);
+}
+$('#c-t').onchange=function(){setT(+this.value)};
+['c-h','c-s','c-a'].forEach(function(id){$('#'+id).onchange=renderCost});
+
+/* travel plan */
+function plan(){
+  var P=[['Week 1','Explore Treatment Options','Review care options for '+T[S.t]],['Week 1','Compare Hospitals','Shortlist: '+H[S.h].n+' (sample)'],['Week 2','Organize Appointments','Consultation on 15 Oct, 10:30 AM (sample)'],['Week 2','Plan Flights and Accommodation','Flights and hotel near the hospital'],['12 Oct','Arrive at the Destination','Airport transfer and hotel check-in'],['15–17 Oct','Attend Treatment','Sample '+T[S.t]+' care at '+H[S.h].n],['18–28 Oct','Recovery and Follow-up','Hotel stay, reminders and final check-up'],['29 Oct','Plan the Return Journey','Airport transfer and flight home']];
+  var r=$('#plan');r.hidden=false;
+  if(G.key()){
+    r.innerHTML='<div class="ld"><i class="sp"></i>Creating your plan with Gemini...</div>';
+    gem([{text:'A patient is traveling to '+H[S.h].c+', India for '+T[S.t]+' care at '+H[S.h].n+' (sample hospital) and will stay '+$('#c-s').value+' nights. Return a JSON array of exactly 8 short practical tips (max 14 words each) for these stages in order: Explore Treatment Options, Compare Hospitals, Organize Appointments, Plan Flights and Accommodation, Arrive, Attend Treatment, Recovery and Follow-up, Return Journey. No medical advice.'}],{json:1}).then(function(t){
+      JSON.parse(clean(t)).forEach(function(x,i){if(P[i]&&typeof x==='string')P[i][2]=esc(x)});draw();
+    }).catch(function(){draw()});
+  }else draw();
+  function draw(){r.innerHTML='<h3>Your Sample Journey Plan</h3>'+P.map(function(p){return'<div class="pl"><b>'+p[0]+'</b><span><b>'+p[1]+'</b><br><small>'+p[2]+'</small></span></div>'}).join('')+'<p class="note">Sample plan for demonstration only. RaabCare does not provide clinical treatment or guarantee travel arrangements.</p><div class="row"><button class="btn" type="button" data-go="dashboard">View My Dashboard</button></div>';}
+  $$('#tl li').forEach(function(li,i){li.classList.remove('on');setTimeout(function(){li.classList.add('on')},i*180)});
+}
+$('#mk').onclick=plan;
+
+/* demo mode */
+var D=[
+ ['Ask the AI assistant',function(){go('assistant')}],
+ ['Understand your report',function(){go('report');analyze()}],
+ ['Match with a hospital',function(){go('hospital');var f=$('#hl [data-m]');if(f)match(+f.dataset.m)}],
+ ['Estimate the cost',function(){go('cost')}],
+ ['Plan the trip',function(){go('travel');plan()}],
+ ['Track your journey',function(){go('dashboard')}]
+];
+var di=-1;
+function demo(i){
+  if(i<0||i>=D.length){di=-1;$('#demo').hidden=true;$('#dbtn').hidden=false;document.body.classList.remove('demo-on');return}
+  di=i;document.body.classList.add('demo-on');$('#dbtn').hidden=true;$('#demo').hidden=false;
+  $('#ds').textContent='Step '+(i+1)+' of '+D.length;$('#dt').textContent=D[i][0];
+  $('#dp').style.width=((i+1)/D.length*100)+'%';
+  $('#dnext').textContent=i===D.length-1?'Finish':'Next';$('#dback').disabled=i===0;
+  D[i][1]();
+}
+$('#dbtn').onclick=function(){demo(0)};
+$('#dnext').onclick=function(){demo(di+1)};
+$('#dback').onclick=function(){demo(di-1)};
+$('#dx').onclick=function(){demo(-1)};
+
+$('#asave').onclick=function(){try{sessionStorage.setItem('mp-key',$('#ak').value.trim());sessionStorage.setItem('mp-model',$('#am').value.trim()||DEF)}catch(e){}setAI();$('#aid').close()};
+$('#aclr').onclick=function(){try{sessionStorage.removeItem('mp-key')}catch(e){}$('#ak').value='';setAI()};
+$('#aclose').onclick=function(){$('#aid').close()};
+setAI();setT(0);
+})();
+</script>
 </body>
 </html>
